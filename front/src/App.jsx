@@ -1,14 +1,14 @@
 import "./App.css"
-import logo from "./logo.svg"
+import {Routes, Route} from 'react-router-dom';
+// import logo from "./logo.svg"
+import MainPage from "./components/MainPage/MainPage.jsx";
 
 const App = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
-    </div>
-  )
+    return (
+        <Routes>
+            <Route path="/" element={<MainPage/>} />
+        </Routes>
+    )
 }
 
 export default App
