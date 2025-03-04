@@ -6,15 +6,10 @@ export const userTypes = {
     FETCH_CURRENCIES_FAILURE: 'FETCH_CURRENCIES_FAILURE',
 }
 
-export const getCurrencies = (token) => dispatch => {
+export const getCurrencies = () => dispatch => {
     dispatch({ type: userTypes.FETCH_CURRENCIES_PENDING });
 
-    const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-    };
-
-    return api.get('https://yourdomain.salesdrive.me/api/currencies/', null, headers)
+    return api.get('/api/currencies')
         .then(res => {
             dispatch({
                 type: userTypes.FETCH_CURRENCIES_SUCCESS,

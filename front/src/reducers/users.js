@@ -6,7 +6,7 @@ const initialState = {
     currenciesError: null,
 };
 
-export default function combinedUserReducer(state = initialState, action) {
+export default function userReducer(state = initialState, action) {
     switch (action.type) {
         case actionsTypes.FETCH_CURRENCIES_PENDING:
             return {

@@ -1,19 +1,11 @@
-import { combineSlices, configureStore } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query";
+import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
+import { thunk } from "redux-thunk";
+import rootReduser from './reducers';
 
-const rootReducer = combineSlices({});
+const store = configureStore({
+  reducer: rootReduser,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk, logger),
+});
 
-export const makeStore = (preloadedState) => {
-  const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(logger),
-    preloadedState,
-  });
-
-  setupListeners(store.dispatch);
-  return store;
-};
-
-export const store = makeStore();
+export default store;
