@@ -1,0 +1,33 @@
+.calculator {
+    display: flex;
+    justify-content: center;
+}
+
+.calculator-form {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.calculator-form-text-field {
+    padding: 10px;
+}
+
+.calculator-table-sum {
+    width: 25%;
+}
+
+.calculator-table-percent {
+    width: 10%;
+}
+
+.calculator-button-group {
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+    margin: 20px;
+}
+
+.calculator-table-delete {
+    width: 3%;
+}
