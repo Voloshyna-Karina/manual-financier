@@ -1,0 +1,22 @@
+.main-form {
+    display: flex;
+    justify-content: center;
+}
+
+.main-form-form {
+    /*display: flex;*/
+}
+
+.main-form-text-field {
+    padding: 10px;
+}
+
+.alert {
+    position: fixed;
+    top: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    padding: 10px;
+    z-index: 1000;
+}
