@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
     Button,
     IconButton,
@@ -19,8 +19,12 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './Calculator.css';
 import Modal from '../Modal/Modal.jsx';
+import {useSelector} from "react-redux";
 
 const Calculator = () => {
+    const formData = useSelector((state) => state?.form?.formData?.startPlanning);
+    const [salary, setSalary] = useState(formData?.salary || '')
+    const [result, setResult] = useState('');
     const [table, setTable] = useState([
         { id: 1, title: 'Оренда квартири', amountExpenses: '' },
         { id: 2, title: 'Комуналка', amountExpenses: '' },
@@ -34,6 +38,14 @@ const Calculator = () => {
     const [rowToDelete, setRowToDelete] = useState(null);
     const [errorsTable, setErrorsTable] = useState({});
     const [errorsModal, setErrorsModal] = useState(false);
+
+    useEffect(() => {
+        if (formData !== undefined) {
+            setSalary(formData);
+        }
+    }, [formData]);
+
+    // console.log(JSON.stringify(salary));
 
     const [newRow, setNewRow] = useState({
         title: '',
@@ -187,6 +199,7 @@ const Calculator = () => {
             </Paper>
 
             <Modal isOpen={openModal} onClose={handleCloseModal}>
+                {/*<Typography variant='h5' sx={{textAlign: "center"}}>ff</Typography>*/}
                 <TextField
                     variant="outlined"
                     name="title"
@@ -195,7 +208,7 @@ const Calculator = () => {
                     onChange={handleNewRowChange}
                     fullWidth
                     margin="normal"
-                    sx={{ mb: 2 }}
+                    sx={{ mb: 2.5 }}
                     error={errorsModal && !newRow.title}
                     // helperText={errorsModal && !newRow.title ? "Це поле обов'язкове" : ""}
                 />
@@ -206,13 +219,14 @@ const Calculator = () => {
                     onChange={handleNewRowChange}
                     fullWidth
                     margin="normal"
-                    sx={{ mb: 2 }}
+                    sx={{ mb: 2.5 }}
                     error={errorsModal && !newRow.amountExpenses}
                     // helperText={errorsModal && !newRow.amountExpenses ? "Це поле обов'язкове" : ""}
                 />
-
-                <Button onClick={handleCloseModal}>Скасувати</Button>
-                <Button onClick={addRow} color="primary">Додати</Button>
+                <div className={"calculator-button-group-modal"}>
+                    <Button onClick={handleCloseModal}>Скасувати</Button>
+                    <Button onClick={addRow} color="primary">Додати</Button>
+                </div>
             </Modal>
 
             <Modal isOpen={openModalDelete} onClose={handleCloseModalDelete}>

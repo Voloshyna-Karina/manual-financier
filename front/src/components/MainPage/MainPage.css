@@ -1,11 +1,11 @@
-.container {
-    /*display: flex;*/
-    /*flex-wrap: nowrap;*/
-    /*width: 100%;*/
-    /*justify-content: center;*/
-    margin: 0 5% 0 5%;
-}
+/*.container-form {*/
+/*    !*display: flex;*!*/
+/*    !*flex-wrap: nowrap;*!*/
+/*    !*width: 100%;*!*/
+/*    !*justify-content: center;*!*/
+/*    margin: 0 5% 0 5%;*/
+/*}*/
 
-.container-calculator {
-    margin-top: 30px;
+.container-form {
+    margin: 30px;
 }

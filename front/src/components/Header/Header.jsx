@@ -1,12 +1,14 @@
-import {useDispatch, useSelector} from "react-redux";
-import {Fragment, useEffect, useState} from "react";
-import {getCurrencies} from "../../actions/userActions.js";
+import { useDispatch, useSelector } from "react-redux";
+import { Fragment, useEffect, useState } from "react";
+import { getCurrencies } from "../../actions/userActions.js";
 import generateApiToken from "../../helpers/generateApiToken.js";
-import {Box, Button, Step, StepButton, Stepper, Typography} from "@mui/material";
+import { Box, Button, Step, StepButton, Stepper, Typography } from "@mui/material";
+import StartForm from "../StartForm/StartForm.jsx";
+import Calculator from "../Calculator/Calculator.jsx";
 
-const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+const steps = ['Внесення даних', 'Планування витрат', 'Результат заощадження'];
 
-const Header = ({...props}) => {
+const Header = ({ ...props }) => {
     const dispatch = useDispatch();
 
     const token = generateApiToken();
@@ -16,7 +18,6 @@ const Header = ({...props}) => {
     //         .then(res => console.log(res))
     //         .catch(err => console.error(err));
     // }, [dispatch]);
-
 
     const [activeStep, setActiveStep] = useState(0);
     const [completed, setCompleted] = useState({});
@@ -68,6 +69,18 @@ const Header = ({...props}) => {
         setCompleted({});
     };
 
+    const renderStepContent = (step) => {
+        switch (step) {
+            case 0:
+                return <StartForm />;
+            case 1:
+                return <Calculator />;
+            case 2:
+                return <Typography>Результат заощадження</Typography>;
+            default:
+                return <Typography>Unknown step</Typography>;
+        }
+    };
 
     return (
         <div>
@@ -89,37 +102,31 @@ const Header = ({...props}) => {
                             </Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                 <Box sx={{ flex: '1 1 auto' }} />
-                                <Button onClick={handleReset}>Reset</Button>
+                                <Button onClick={handleReset}>Заново</Button>
                             </Box>
                         </Fragment>
                     ) : (
                         <Fragment>
-                            <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-                                Step {activeStep + 1}
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                            {renderStepContent(activeStep)}
+                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end'}}>
                                 <Button
                                     color="inherit"
                                     disabled={activeStep === 0}
                                     onClick={handleBack}
                                     sx={{ mr: 1 }}
                                 >
-                                    Back
-                                </Button>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Button onClick={handleNext} sx={{ mr: 1 }}>
-                                    Next
+                                    Назад
                                 </Button>
                                 {activeStep !== steps.length &&
                                     (completed[activeStep] ? (
-                                        <Typography variant="caption" sx={{ display: 'inline-block' }}>
+                                        <Typography variant="caption">
                                             Step {activeStep + 1} already completed
                                         </Typography>
                                     ) : (
                                         <Button onClick={handleComplete}>
                                             {completedSteps() === totalSteps() - 1
-                                                ? 'Finish'
-                                                : 'Complete Step'}
+                                                ? 'Закінчити'
+                                                : 'Продовжити'}
                                         </Button>
                                     ))}
                             </Box>

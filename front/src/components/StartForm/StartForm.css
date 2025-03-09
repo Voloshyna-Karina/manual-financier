@@ -1,6 +1,11 @@
+.start-form {
+    margin: 5%;
+}
+
 .main-form {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .main-form-form {
