@@ -1,9 +1,9 @@
 import {actionsTypes} from "../actions/index.js";
 
 const initialState = {
-    currencies: null,
-    pendingCurrencies: false,
-    currenciesError: null,
+    loading: false,
+    currencies: [],
+    error: null,
 };
 
 export default function userReducer(state = initialState, action) {
@@ -11,22 +11,22 @@ export default function userReducer(state = initialState, action) {
         case actionsTypes.FETCH_CURRENCIES_PENDING:
             return {
                 ...state,
-                pendingCurrencies: true,
-                currenciesError: null,
+                loading: true,
+                error: null,
             };
-
         case actionsTypes.FETCH_CURRENCIES_SUCCESS:
             return {
                 ...state,
+                loading: false,
                 currencies: action.payload,
-                pendingCurrencies: false,
+                error: null,
             };
-
         case actionsTypes.FETCH_CURRENCIES_FAILURE:
             return {
                 ...state,
-                pendingCurrencies: false,
-                currenciesError: action.payload,
+                loading: false,
+                currencies: [],
+                error: action.payload,
             };
 
         default:

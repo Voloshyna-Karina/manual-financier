@@ -28,3 +28,35 @@ export default defineConfig({
     },
   },
 });
+
+//export default defineConfig({
+//   plugins: [react()],
+//   server: {
+//     port: 3030, // порт фронтенда
+//     host: 'localhost', // явно указываем хост
+//     open: true, // автоматически открывает браузер
+//     hmr: { // явная настройка HMR
+//       protocol: 'ws', // используем WebSocket
+//       host: 'localhost',
+//       port: 3030,
+//       overlay: true // показывать ошибки в браузере
+//     },
+//     proxy: {
+//       '/api': {
+//         target: 'http://localhost:3000',
+//         changeOrigin: true,
+//         rewrite: (path) => path.replace(/^\/api/, ''),
+//       },
+//     },
+//     watch: { // настройка отслеживания изменений
+//       usePolling: true,
+//       interval: 100
+//     }
+//   },
+//   test: {
+//     globals: true,
+//     environment: "jsdom",
+//     setupFiles: "src/setupTests",
+//     mockReset: true,
+//   }
+// });

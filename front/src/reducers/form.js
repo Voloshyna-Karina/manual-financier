@@ -2,9 +2,10 @@ import { formTypes } from "../actions/formActions.js";
 
 const initialState = {
     formData: {
-        startPlanning: {
+        planning: {
             salary: null,
-            spare: null,
+            convertedSalary: null,
+            monthlySavings: null,
         },
     },
 };
@@ -16,9 +17,9 @@ const formReducer = (state = initialState, action) => {
                 ...state,
                 formData: {
                     ...state.formData,
-                    startPlanning: {
-                        ...state.formData.startPlanning,
-                        ...action.payload,
+                    [action.payload.key]: {
+                        ...state.formData[action.payload.key],
+                        ...action.payload.data,
                     },
                 },
             };

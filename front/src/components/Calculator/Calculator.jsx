@@ -21,7 +21,7 @@ import './Calculator.css';
 import Modal from '../Modal/Modal.jsx';
 import {useSelector} from "react-redux";
 
-const Calculator = () => {
+const Calculator = ({handleComplete}) => {
     const formData = useSelector((state) => state?.form?.formData?.startPlanning);
     const [salary, setSalary] = useState(formData?.salary || '')
     const [result, setResult] = useState('');
@@ -130,11 +130,10 @@ const Calculator = () => {
         });
         setErrorsTable(newErrors);
 
-        // if (Object.keys(newErrors).length === 0) {
-        //     alert("Всі поля заповнені!");
-        // } else {
-        //     alert("Є порожні поля!");
-        // }
+        if (Object.keys(newErrors).length === 0) {
+            handleComplete();
+            return;
+        }
     };
 
     return (
