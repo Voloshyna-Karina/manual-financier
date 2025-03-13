@@ -2,51 +2,14 @@ import { Alert, Button, FormControl, InputLabel, MenuItem, Select, TextField } f
 import { useState, useEffect } from "react";
 import './StartForm.css';
 import { useDispatch, useSelector } from "react-redux";
-import { updateFormData } from "../../actions/formActions.js";
-import PropTypes from "prop-types";
 import TextFieldUpdate from "../TextFieldUpdate/TextFieldUpdate.jsx";
-
-const currency = [
-    {
-        "r030": 985,
-        "txt": "Злотий",
-        "sale": 10.45,
-        "buy": 10.40,
-        "cc": "PLN"
-    },
-    {
-        "r030": 980,
-        "txt": "Гривня",
-        "sale": 1,
-        "buy": 1,
-        "cc": "UAH"
-    },
-    {
-        "r030": 203,
-        "txt": "Чеська крона",
-        "sale": 1.75,
-        "buy": 1.72,
-        "cc": "CZK"
-    },
-    {
-        "r030": 840,
-        "txt": "Долар США",
-        "sale": 41.60,
-        "buy": 41.50,
-        "cc": "USD"
-    },
-    {
-        "r030": 978,
-        "txt": "Євро",
-        "sale": 45.50,
-        "buy": 45.40,
-        "cc": "EUR"
-    }
-];
+import {getCurrencies} from "../../actions/userActions.js";
 
 const StartForm = ({ handleComplete }) => {
     const dispatch = useDispatch();
     const formData = useSelector((state) => state?.form?.formData?.planning);
+    const currency = useSelector(state => state?.user?.currencies || '');
+    // console.log(currency)
 
     const [expectedSalary, setExpectedSalary] = useState(formData?.salary || '');
     const [mainCurrency, setMainCurrency] = useState('');
@@ -58,13 +21,29 @@ const StartForm = ({ handleComplete }) => {
     const [errorsText, setErrorsText] = useState(false);
     const [showConvertedSalaryTextField, setConvertedSalaryTextField] = useState(false);
 
-    useEffect(() => {
-        if (mainCurrency !== 980) {
-            setConvertedSalaryTextField(true);
-        } else {
-            setConvertedSalaryTextField(false);
-        }
-    }, [mainCurrency]);
+    // useEffect(() => {
+    //     dispatch(getCurrencies())
+    //         .then((res) => {
+    //             // console.log(res)
+    //         })
+    //         .catch((err) => {
+    //             console.error(err)
+    //             setAlertError(true);
+    //             setTextAlertError('Наразі функція вибору валюти тимчасово недоступна. Ми працюємо над усуненням технічних обмежень і намагаємося зробити цю опцію доступною якомога швидше. Дякуємо за ваше розуміння та терпіння!');
+    //         })
+    // }, [dispatch]);
+
+    const currencyFilter = currency.filter(item =>
+        ["CAD", "CZK", "DKK", "HUF", "NOK", "SEK", "CHF", "GBP", "USD", "RON", "BGN", "EUR", "PLN", "RSD"].includes(item.cc)
+    );
+
+    // useEffect(() => {
+    //     if (mainCurrency !== 980) {
+    //         setConvertedSalaryTextField(true);
+    //     } else {
+    //         setConvertedSalaryTextField(false);
+    //     }
+    // }, [mainCurrency]);
 
     const handleInputChangeMain = (e) => setExpectedSalary(e.target.value);
     const handleChangeMainCurrency = (e) => setMainCurrency(e.target.value);
@@ -79,10 +58,10 @@ const StartForm = ({ handleComplete }) => {
         //         return;
         //     }
         //
-        //     const saleRate = targetCurrency.sale;
+        //     const saleRate = targetCurrency.rate;
         //
         //     let amountInUAH;
-        //     if (mainCurrency === 980) {
+        //     if (mainCurrency === 100) {
         //         amountInUAH = expectedSalary;
         //     } else {
         //         amountInUAH = expectedSalary * saleRate;
@@ -91,7 +70,7 @@ const StartForm = ({ handleComplete }) => {
         //     // dispatch(updateFormData({
         //     //     salary: amountInUAH
         //     // }));
-        //     setConvertibleAmount(amountInUAH);
+        //     setConvertedSalaryTextField(amountInUAH);
         //     // setConvertibleAmount(parseFloat(amountInUAH.toFixed(2)));
         // }
     };
@@ -101,7 +80,7 @@ const StartForm = ({ handleComplete }) => {
     }, [expectedSalary, mainCurrency]);
 
     // useEffect(() => {
-    //     if (mainCurrency === 980) {
+    //     if (mainCurrency === 100) {
     //         // Если выбрана UAH, передаём expectedSalary
     //         dispatch(updateFormData({
     //             salary: convertedSalary,
@@ -124,13 +103,13 @@ const StartForm = ({ handleComplete }) => {
 
         setErrorsText(false);
         setAlertError(false);
-        handleComplete();
+        // handleComplete();
     };
 
     return (
-        <div className={'start-form'}>
-            <div className={"main-form"}>
-                <div className={"main-form-text-field"}>
+        <div className={'start-container'}>
+            <div className={"start-form"}>
+                <div className={"start-form-text-field"}>
                     <TextFieldUpdate
                         id="outlined-basic"
                         label="Початкова сума"
@@ -142,7 +121,7 @@ const StartForm = ({ handleComplete }) => {
                         error={errorsText && !expectedSalary}
                     />
                 </div>
-                <div className={"main-form-text-field"}>
+                <div className={"start-form-text-field"}>
                     <FormControl sx={{ minWidth: 110 }} size="small">
                         <InputLabel id="demo-select-small-label">Валюта</InputLabel>
                         <Select
@@ -153,16 +132,19 @@ const StartForm = ({ handleComplete }) => {
                             onChange={handleChangeMainCurrency}
                             error={errorsText && !mainCurrency}
                         >
-                            {currency.map((item) => (
+                            <MenuItem key={100} value={100}>
+                                {"UAH"} = {"Гривня"}
+                            </MenuItem>
+                            {currencyFilter.map((item) => (
                                 <MenuItem key={item.r030} value={item.r030}>
-                                    {item.cc}
+                                    {item.cc} = {item.txt}
                                 </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
                 </div>
                 {showConvertedSalaryTextField && (
-                    <div className={"main-form-text-field"}>
+                    <div className={"start-form-text-field"}>
                         <TextFieldUpdate
                             id="outlined-basic"
                             label="Сума в UAH"
@@ -176,8 +158,8 @@ const StartForm = ({ handleComplete }) => {
                     </div>
                 )}
             </div>
-            <div className={"main-form"}>
-                <div className={"main-form-text-field"}>
+            <div className={"start-form"}>
+                <div className={"start-form-text-field"}>
                     <TextFieldUpdate
                         id="outlined-basic"
                         label="Заощадження"
@@ -189,7 +171,7 @@ const StartForm = ({ handleComplete }) => {
                         error={errorsText && !monthlySavings}
                     />
                 </div>
-                <div className={"main-form-text-field"}>
+                <div className={"start-form-text-field"}>
                     <Button
                         variant="contained"
                         onClick={handleConvert}

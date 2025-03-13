@@ -1,16 +1,15 @@
-import api from "../helpers/FetchData.js";
-import axios from "axios";
+import axios from 'axios';
 
 export const userTypes = {
     FETCH_CURRENCIES_PENDING: 'FETCH_CURRENCIES_PENDING',
     FETCH_CURRENCIES_SUCCESS: 'FETCH_CURRENCIES_SUCCESS',
     FETCH_CURRENCIES_FAILURE: 'FETCH_CURRENCIES_FAILURE',
-}
+};
 
 export const getCurrencies = () => (dispatch) => {
     dispatch({ type: userTypes.FETCH_CURRENCIES_PENDING });
 
-    axios.get('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5')
+    return axios.get('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json')
         .then((res) => {
             dispatch({
                 type: userTypes.FETCH_CURRENCIES_SUCCESS,

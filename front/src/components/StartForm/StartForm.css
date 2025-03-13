@@ -1,18 +1,18 @@
-.start-form {
-    margin: 5%;
+.start-container {
+    margin: 3%;
 }
 
-.main-form {
+.start-form {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.main-form-form {
+.start-form-form {
     /*display: flex;*/
 }
 
-.main-form-text-field {
+.start-form-text-field {
     padding: 10px;
 }
 
