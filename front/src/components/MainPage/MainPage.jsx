@@ -1,13 +1,17 @@
 import Header from "../Header/Header.jsx";
-import StartForm from "../StartForm/StartForm.jsx";
-import Calculator from "../Calculator/Calculator.jsx";
 import './MainPage.css';
+import SideBar from "../SideBar/SideBar.jsx";
 
 const MainPage = () => {
 
     return (
-        <div className={"container"}>
-            <Header/>
+        <div className={"main-page"}>
+            <SideBar/>
+
+            {/*<div className={"sidebar-content"}>*/}
+            {/*    <StartForm/>*/}
+            {/*</div>*/}
+            {/*<Header/>*/}
             {/*<div className={"container-form"}>*/}
             {/*    <StartForm/>*/}
             {/*</div>*/}
